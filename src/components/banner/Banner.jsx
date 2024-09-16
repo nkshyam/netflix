@@ -1,17 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Banner.css'
+import axios  from '../../axios';
+import {API_KEY, imageUrl} from '../../constants/constants'
 
-const Banner = () => {
+
+
+function Banner() {
+
+    const [movie, setMovie] = useState()
+
+    useEffect(() => {
+        axios.get(`discover/movie?api_key=${API_KEY}`).then((response) => {
+            console.log(response.data.results[0]);
+            setMovie(response.data.results[0])
+        })
+
+    },[]);
     return (
-        <div class="flex items-center h-96 bg-cover bg-center bg-[url('https://wallpapers.com/images/high/money-heist-nairobi-poster-fu8844bhtgm75weu.webp')]">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/100 to-transparent"></div>
+        <div class="flex items-center h-screen bg-cover bg-center " style={{backgroundImage:`url(${ movie ? imageUrl+movie.poster_path : "" })`}}>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/100 to-transparent h-screen"></div>
             <div className='content pl-10  '>
-                <h1 className='heading text-white text-4xl font-semibold text-left mb-8'>Money Heist</h1>
+                <h1 className='heading text-white text-4xl font-semibold text-left mb-8'>{movie ? movie.title:""}</h1>
                 <div className='buttons'>
                     <button className='play  px-5 py-2 mr-5 rounded cursor-pointer'>Play</button>
                     <button className='myList  px-5 py-2 rounded cursor-pointer'>My List</button>
                 </div>
-                <h1 className='discription mt-5 text-white'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual</h1>
+                <h1 className='discription mt-5 text-white'>{movie ? movie.overview:""}</h1>
             </div>
         </div>
     )
