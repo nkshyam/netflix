@@ -17,7 +17,8 @@ function Banner() {
 
     },[]);
     return (
-        <div class="flex items-center h-screen bg-cover bg-center " style={{backgroundImage:`url(${ movie ? imageUrl+movie.poster_path : "" })`}}>
+        <div class="flex items-center h-screen bg-cover bg-center " style={{backgroundImage:`url(${ movie ? imageUrl+movie.poster_path : "" })`, backgroundPosition: 'center top'}}>
+
             <div class="absolute inset-0 bg-gradient-to-t from-black/100 to-transparent h-screen"></div>
             <div className='content pl-10  '>
                 <h1 className='heading text-white text-4xl font-semibold text-left mb-8'>{movie ? movie.title:""}</h1>
@@ -29,6 +30,6 @@ function Banner() {
             </div>
         </div>
     )
-}
+}   
 
 export default Banner
