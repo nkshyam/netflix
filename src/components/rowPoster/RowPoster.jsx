@@ -1,28 +1,33 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from '../../axios'
-import { API_KEY } from '../../constants/constants'
+import {imageUrl } from '../../constants/constants'
 import './RowPoster.css'
 
 
-const RowPoster = () => {
+const RowPoster = (props) => {
+
+  const [movies, setMovie] = useState([])
 
   useEffect(()=>{
-    axios.get(`movie/top_rated?api_key=${API_KEY} `).then((response)=>{
+    axios.get(props.url).then((response)=>{
       console.log(response.data);
+      setMovie(response.data.results)
+    }).catch(err => {
+      alert('Network error')
     })
   })
   
   return (
-    <div className='container'>
-      <div className='heading mt-20'>
-        <h1 className='subHeadings text-white mb-8 text-xl ml-5'>Recommend</h1>
+    <div className=''>
+      <div className='heading mt-5'>
+        <h1 className=' subHeadings text-white mb-5 text-xl ml-5'>{props.title}</h1>
       </div>
-      <div className='posters ml-5  flex w-screen space-x-6 overflow-x-auto overflow-y-hidden '>
-        <div className='flex w-96 space-x-4'>
-        <img className='rounded' src="https://i0.wp.com/tshirtsyndicate.com/wp-content/uploads/2016/05/Breaking-Bad-banner-e1510061278959.jpg?resize=768%2C340&ssl=1" alt=" 1" />
-        <img className='rounded' src="https://i0.wp.com/tshirtsyndicate.com/wp-content/uploads/2016/05/Breaking-Bad-banner-e1510061278959.jpg?resize=768%2C340&ssl=1" alt=" 2" />
-        <img className='rounded' src="https://i0.wp.com/tshirtsyndicate.com/wp-content/uploads/2016/05/Breaking-Bad-banner-e1510061278959.jpg?resize=768%2C340&ssl=1" alt=" 3" />
-        <img className='rounded' src="https://i0.wp.com/tshirtsyndicate.com/wp-content/uploads/2016/05/Breaking-Bad-banner-e1510061278959.jpg?resize=768%2C340&ssl=1" alt=" 4" />
+      <div className='yscrollBar posters ml-5  space-x-4 overflow-x-auto  '>
+        <div className=' flex  space-x-4'>
+          {movies.map((obj)=>
+              <img className='rounded w-40 h-60 md:w-44 md:h-66 lg:w-48 lg:h-72' src={`${imageUrl+obj.poster_path}`} alt=" 1" />
+          )}
+  
         </div>
       </div>
     </div>

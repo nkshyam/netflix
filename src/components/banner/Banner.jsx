@@ -12,7 +12,7 @@ function Banner() {
     useEffect(() => {
         axios.get(`discover/movie?api_key=${API_KEY}`).then((response) => {
             console.log(response.data.results[0]);
-            setMovie(response.data.results[0])
+            setMovie(response.data.results[6])
         })
 
     },[]);
